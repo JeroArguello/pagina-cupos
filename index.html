@@ -77,6 +77,28 @@
       height: 200px;
     }
 
+    .confirmation {
+      display: none;
+      text-align: center;
+    }
+
+    .confirmation h2 {
+      font-size: 1.5rem;
+      color: #28a745;
+    }
+
+    .confirmation p {
+      font-size: 1.2rem;
+      color: #555;
+    }
+
+    .confirmation button {
+      background-color: #dc3545;
+      color: white;
+      padding: 10px 18px;
+      margin-top: 15px;
+    }
+
     @media (max-width: 600px) {
       .container {
         padding: 15px;
@@ -95,30 +117,46 @@
 <body>
 
   <div class="container">
-    <h1>Reserva tu Cupo en el Parqueadero</h1>
-    <p id="available-spots">Cupos disponibles: <span id="spots">10</span></p>
-    
-    <button id="reserve-button">Reservar un Cupo</button>
-    
-    
+    <div id="reserve-container">
+      <h1>Reserva tu Cupo en el Parqueadero</h1>
+      <p id="available-spots">Cupos disponibles: <span id="spots">10</span></p>
+      <button id="reserve-button">Reservar un Cupo</button>
+
+      <div id="qr-container">
+        <h2>Escanea para entrar</h2>
+        <div id="qrCode"></div>
+      </div>
+    </div>
+
+    <!-- Pantalla de confirmación -->
+    <div class="confirmation" id="confirmation-screen">
+      <h2>¡Cupo Reservado!</h2>
+      <p>Tu cupo ha sido reservado exitosamente.</p>
+      <button id="cancel-button">Cancelar Reserva</button>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode"></script>
   <script>
     let totalSpots = 10;
+    let isReserved = false;
 
     const spotsElement = document.getElementById("spots");
     const reserveButton = document.getElementById("reserve-button");
+    const confirmationScreen = document.getElementById("confirmation-screen");
+    const reserveContainer = document.getElementById("reserve-container");
+    const cancelButton = document.getElementById("cancel-button");
     const qrCodeContainer = document.getElementById("qrCode");
 
     // Actualizar el número de cupos disponibles
     function updateSpots() {
       spotsElement.textContent = totalSpots;
-      reserveButton.disabled = totalSpots === 0;
+      reserveButton.disabled = totalSpots === 0 || isReserved;
     }
 
-    // Generar el QR para la página principal
+    // Función para generar el QR
     function generatePageQR() {
-      const url = "https://TU_USUARIO.github.io/NOMBRE_REPOSITORIO"; // Cambia la URL por tu propia página de GitHub
+      const url = window.location.href;  // La URL actual
       QRCode.toCanvas(qrCodeContainer, url, { width: 200 }, (error) => {
         if (error) console.error("Error al generar el QR:", error);
       });
@@ -126,17 +164,38 @@
 
     // Reserva un cupo
     reserveButton.addEventListener("click", () => {
-      if (totalSpots > 0) {
+      if (totalSpots > 0 && !isReserved) {
         totalSpots -= 1;
+        isReserved = true;
         updateSpots();
-        alert("¡Cupo reservado! Serás redirigido a la pantalla de confirmación.");
-        window.location.href = "https://TU_USUARIO.github.io/NOMBRE_REPOSITORIO/reservado.html"; // Cambia la URL por la pantalla de confirmación
+        showConfirmationScreen();
       }
     });
+
+    // Cancelar reserva
+    cancelButton.addEventListener("click", () => {
+      isReserved = false;
+      totalSpots += 1;
+      updateSpots();
+      showReservationScreen();
+    });
+
+    // Mostrar la pantalla de confirmación
+    function showConfirmationScreen() {
+      reserveContainer.style.display = 'none';
+      confirmationScreen.style.display = 'block';
+    }
+
+    // Mostrar la pantalla de reserva
+    function showReservationScreen() {
+      reserveContainer.style.display = 'block';
+      confirmationScreen.style.display = 'none';
+    }
 
     // Inicializar la página
     updateSpots();
     generatePageQR();
   </script>
+
 </body>
 </html>
