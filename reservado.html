@@ -5,26 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cupo Reservado</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-    .container { max-width: 400px; margin: auto; }
-    button { margin-top: 10px; padding: 10px 20px; background-color: #FF5733; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7fc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #333;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #555;
+    }
+
+    button {
+      background-color: #dc3545;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #c82333;
+    }
   </style>
 </head>
 <body>
+
   <div class="container">
     <h1>¡Cupo Reservado!</h1>
     <p>Tu cupo ha sido reservado exitosamente.</p>
-
-    <!-- Botón para cancelar la reserva -->
+    
     <button id="cancel-button">Cancelar Reserva</button>
   </div>
 
   <script>
-    // Manejar cancelación de reserva
     document.getElementById("cancel-button").addEventListener("click", () => {
       alert("Has cancelado tu reserva.");
-      // Redirigir a la página principal
-      window.location.href = "https://TU_USUARIO.github.io/parqueadero"; // Cambia por tu URL de GitHub Pages
+      window.location.href = "https://TU_USUARIO.github.io/NOMBRE_REPOSITORIO"; // Cambia por tu URL de GitHub Pages
     });
   </script>
 </body>
