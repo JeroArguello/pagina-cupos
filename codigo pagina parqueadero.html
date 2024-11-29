@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Parqueadero</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+    .container { max-width: 400px; margin: auto; }
+    button { margin-top: 10px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:disabled { background-color: #CCCCCC; }
+    #qrCode { margin-top: 20px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Parqueadero</h1>
+    <p id="available-spots">Cupos disponibles: <span id="spots">10</span></p>
+    <button id="reserve-button">Reservar un cupo</button>
+    <div id="qrCode">
+      <!-- Aquí se mostrará el QR -->
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode"></script>
+  <script>
+    let totalSpots = 10;
+
+    const spotsElement = document.getElementById("spots");
+    const reserveButton = document.getElementById("reserve-button");
+    const qrCodeContainer = document.getElementById("qrCode");
+
+    // Actualizar el número de cupos disponibles
+    function updateSpots() {
+      spotsElement.textContent = totalSpots;
+      reserveButton.disabled = totalSpots === 0;
+    }
+
+    // Generar QR
+    function generateQR(id) {
+      qrCodeContainer.innerHTML = ""; // Limpiar QR previo
+      QRCode.toCanvas(qrCodeContainer, `https://mi-parqueadero.com/reserva?id=${id}`, {
+        width: 200, // Ajusta el tamaño del QR
+      }, (error) => {
+        if (error) console.error(error);
+      });
+    }
+
+    // Manejar reservas
+    reserveButton.addEventListener("click", () => {
+      if (totalSpots > 0) {
+        totalSpots -= 1;
+        updateSpots();
+
+        // Generar ID único para la reserva
+        const reservationId = `reserva-${Date.now()}`;
+        alert("Reserva realizada con éxito. Aquí tienes tu QR:");
+
+        // Mostrar QR
+        generateQR(reservationId);
+      } else {
+        alert("No hay cupos disponibles.");
+      }
+    });
+
+    // Inicializar cupos
+    updateSpots();
+  </script>
+</body>
+</html>
