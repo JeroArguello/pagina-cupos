@@ -9,62 +9,68 @@
     .container { max-width: 400px; margin: auto; }
     button { margin-top: 10px; padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; }
     button:disabled { background-color: #CCCCCC; }
-    #qrCode { margin-top: 20px; text-align: center; }
+    #qrCode { margin-top: 20px; }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Parqueadero</h1>
+
+    <!-- Mostrar cupos disponibles -->
     <p id="available-spots">Cupos disponibles: <span id="spots">10</span></p>
+
+    <!-- Botón para reservar -->
     <button id="reserve-button">Reservar un cupo</button>
-    <div id="qrCode">
-      <!-- Aquí se mostrará el QR -->
+
+    <!-- Generador de QR para entrar a la página -->
+    <div id="qr-container">
+      <h2>Escanea para entrar a la página</h2>
+      <div id="qrCode"></div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode"></script>
   <script>
+    // Variables iniciales
     let totalSpots = 10;
 
+    // Elementos del DOM
     const spotsElement = document.getElementById("spots");
     const reserveButton = document.getElementById("reserve-button");
     const qrCodeContainer = document.getElementById("qrCode");
 
-    // Actualizar el número de cupos disponibles
+    // Función para actualizar el número de cupos
     function updateSpots() {
       spotsElement.textContent = totalSpots;
-      reserveButton.disabled = totalSpots === 0;
+      reserveButton.disabled = totalSpots === 0; // Deshabilitar el botón si no hay cupos
     }
 
-    // Generar QR
-    function generateQR(id) {
-      qrCodeContainer.innerHTML = ""; // Limpiar QR previo
-      QRCode.toCanvas(qrCodeContainer, `https://mi-parqueadero.com/reserva?id=${id}`, {
-        width: 200, // Ajusta el tamaño del QR
+    // Función para generar un QR de la página principal
+    function generatePageQR() {
+      const url = "https://TU_USUARIO.github.io/parqueadero"; // Cambia por tu URL de GitHub Pages
+      QRCode.toCanvas(qrCodeContainer, url, {
+        width: 200, // Tamaño del QR
       }, (error) => {
         if (error) console.error(error);
       });
     }
 
-    // Manejar reservas
+    // Función para reservar un cupo
     reserveButton.addEventListener("click", () => {
       if (totalSpots > 0) {
-        totalSpots -= 1;
+        totalSpots -= 1; // Reducir los cupos
         updateSpots();
+        alert("¡Cupo reservado! Serás redirigido a la pantalla de confirmación.");
 
-        // Generar ID único para la reserva
-        const reservationId = `reserva-${Date.now()}`;
-        alert("Reserva realizada con éxito. Aquí tienes tu QR:");
-
-        // Mostrar QR
-        generateQR(reservationId);
-      } else {
-        alert("No hay cupos disponibles.");
+        // Redirigir a la pantalla de confirmación
+        window.location.href = `https://TU_USUARIO.github.io/parqueadero/reservado.html`; // Cambia esto por la URL de tu pantalla de confirmación
       }
     });
 
-    // Inicializar cupos
+    // Inicializar la página
     updateSpots();
+    generatePageQR();
   </script>
 </body>
 </html>
