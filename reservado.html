@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cupo Reservado</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+    .container { max-width: 400px; margin: auto; }
+    button { margin-top: 10px; padding: 10px 20px; background-color: #FF5733; color: white; border: none; border-radius: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>¡Cupo Reservado!</h1>
+    <p>Tu cupo ha sido reservado exitosamente.</p>
+
+    <!-- Botón para cancelar la reserva -->
+    <button id="cancel-button">Cancelar Reserva</button>
+  </div>
+
+  <script>
+    // Manejar cancelación de reserva
+    document.getElementById("cancel-button").addEventListener("click", () => {
+      alert("Has cancelado tu reserva.");
+      // Redirigir a la página principal
+      window.location.href = "https://TU_USUARIO.github.io/parqueadero"; // Cambia por tu URL de GitHub Pages
+    });
+  </script>
+</body>
+</html>
